@@ -101,7 +101,7 @@ const LoginPage = () => {
               </div>
               <div>
                 <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
-                  PharmaCare
+                  PharmaCareMM
                 </h1>
                 <p className="text-gray-600 mt-2">Professional Pharmacy Management</p>
               </div>
