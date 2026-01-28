@@ -1,0 +1,48 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.6",
+    "@prisma/client": "^4.16.2",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.8",
+    "dayjs": "^1.11.19",
+    "jsonwebtoken": "^9.0.3",
+    "jspdf": "^3.0.4",
+    "lucide-react": "^0.562.0",
+    "next": "^16.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-icons": "^5.5.0",
+    "react-qr-barcode-scanner": "^2.1.20",
+    "react-to-print": "^3.2.0",
+    "recharts": "^3.6.0",
+    "router": "^2.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "prisma": "^4.16.2",
+    "serve": "^14.2.5",
+    "tailwindcss": "^4",
+    "typescript": "^5.9.3"
+  }
+}
