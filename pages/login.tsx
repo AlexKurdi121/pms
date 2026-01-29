@@ -307,7 +307,7 @@ const LoginPage = () => {
             <div className="mt-6 text-center">
               <p className="text-xs text-gray-500 flex items-center justify-center gap-1">
                 <SecurityIcon className="w-3 h-3" />
-                Your data is protected with 256-bit SSL encryption
+                ~Alex D. Mekhail ~
               </p>
             </div>
           </div>
