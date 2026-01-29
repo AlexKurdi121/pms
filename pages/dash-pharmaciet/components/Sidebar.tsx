@@ -28,11 +28,12 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Check screen size
+  /** Detect screen size for mobile view */
   useEffect(() => {
     const checkScreen = () => {
-      const mobile = window.innerWidth < 1024; // Mobile/tablet breakpoint
+      const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
+
       if (!mobile) {
         setIsSidebarOpen(false);
         setCollapsed(false);
@@ -46,22 +47,24 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
     return () => window.removeEventListener("resize", checkScreen);
   }, [setCollapsed]);
 
-  // Fetch user info
+  /** Fetch logged-in user info */
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
-    axios
-      .get("https://pharmacy--alexmohammew.replit.app/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        const user = res.data.user;
-        if (user) setUserName(`${user.name} - ${user.role}`);
-      })
-      .catch(() => setUserName("Unknown User"));
-  }, []);
+  axios
+    .get("/api/users/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      const user = res.data.user;
+      if (user) setUserName(`${user.name} - ${user.role}`);
+    })
+    .catch(() => setUserName("Unknown User"));
+}, []);
 
+
+  /** Logout */
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -83,7 +86,7 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
 
   return (
     <>
-      {/* Mobile Menu Button */}
+      {/* Mobile Open Menu */}
       {isMobile && !isSidebarOpen && (
         <button
           onClick={() => setIsSidebarOpen(true)}
@@ -96,7 +99,9 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
       {/* Sidebar */}
       <div
         className={`
-          fixed top-0 left-0 h-screen z-40 flex flex-col justify-between bg-gradient-to-b from-blue-900 via-blue-800 to-blue-700 text-white shadow-2xl transition-all duration-300
+          fixed top-0 left-0 h-screen z-40 flex flex-col justify-between
+          bg-gradient-to-b from-blue-900 via-blue-800 to-blue-700 
+          text-white shadow-2xl transition-all duration-300
           ${isMobile ? "transform" : ""}
           ${isMobile && !isSidebarOpen ? "-translate-x-full" : "translate-x-0"}
           ${collapsed && !isMobile ? "w-20" : "w-64"}
@@ -112,7 +117,7 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
           </button>
         )}
 
-        {/* Desktop Toggle Button */}
+        {/* Desktop Collapse Button */}
         {!isMobile && (
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -122,22 +127,28 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
           </button>
         )}
 
-        {/* Logo & User */}
+        {/* Logo + User Section */}
         <div className="p-6 flex flex-col items-center">
-          <div className={`w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mb-3`}>
+          <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mb-3">
             <span className="text-xl font-bold text-cyan-300">💊</span>
           </div>
 
           {(!collapsed || isMobile) && (
             <>
-              <h1 className="text-xl font-bold tracking-tight text-cyan-300 mb-1">Pharmacy</h1>
+              <h1 className="text-xl font-bold tracking-tight text-cyan-300 mb-1">
+                Pharmacy
+              </h1>
+
+              {/* Username */}
               <div className="flex flex-col items-center gap-1 mt-2 bg-white/10 p-3 rounded-lg backdrop-blur-sm w-full">
                 <div className="flex items-center gap-2 w-full justify-between">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse flex-shrink-0"></span>
-                    <span className="text-sm truncate font-medium">{userName}</span>
+                    <span className="text-sm truncate font-medium">
+                      {userName}
+                    </span>
                   </div>
-                  <NotificationsIcon className="text-white/80 flex-shrink-0" />
+                  <NotificationsIcon className="text-white/80" />
                 </div>
               </div>
             </>
@@ -145,6 +156,7 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
         </div>
 
         {/* Navigation */}
+
         <ul className={`flex flex-col gap-3 p-4 mt-4 flex-1 ${collapsed && !isMobile ? "items-center" : ""}`}>
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -152,19 +164,26 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
               <li key={link.href} className="relative group">
                 <button
                   onClick={() => handleLinkClick(link.href)}
-                  className={`flex items-center ${collapsed && !isMobile ? "justify-center" : ""} gap-3 p-3 rounded-lg transition-all w-full
-                    ${isActive ? "text-white font-semibold bg-white/20 backdrop-blur-sm" : "text-white/80 hover:text-white hover:bg-white/10 hover:backdrop-blur-sm"}
-                  `}
+                  className={`flex items-center gap-3 p-3 rounded-lg transition-all w-full ${
+                    collapsed && !isMobile ? "justify-center" : ""
+                  } ${
+                    isActive
+                      ? "text-white font-semibold bg-white/20 backdrop-blur-sm"
+                      : "text-white/80 hover:text-white hover:bg-white/10 hover:backdrop-blur-sm"
+                  }`}
                 >
-                  <div className={`flex items-center justify-center rounded-full flex-shrink-0
-                    ${collapsed && !isMobile ? "w-8 h-8" : "w-10 h-10"} ${isActive ? "bg-white/20" : "bg-white/10"}`}
+                  <div
+                    className={`flex items-center justify-center rounded-full flex-shrink-0 ${
+                      collapsed && !isMobile ? "w-8 h-8" : "w-10 h-10"
+                    } ${isActive ? "bg-white/20" : "bg-white/10"}`}
                   >
                     {link.icon}
                   </div>
+
                   {(!collapsed || isMobile) && <span className="truncate">{link.label}</span>}
                 </button>
 
-                {/* Tooltip for collapsed desktop */}
+                {/* Tooltip when collapsed */}
                 {collapsed && !isMobile && (
                   <span className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                     {link.label}
@@ -178,7 +197,9 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
           <li className={`${collapsed && !isMobile ? "mt-auto" : ""}`}>
             <button
               onClick={logout}
-              className={`flex items-center ${collapsed && !isMobile ? "justify-center" : ""} gap-3 w-full p-3 bg-red-500 hover:bg-red-600 rounded-lg transition font-semibold shadow-md`}
+              className={`flex items-center gap-3 w-full p-3 bg-red-500 hover:bg-red-600 rounded-lg transition font-semibold shadow-md ${
+                collapsed && !isMobile ? "justify-center" : ""
+              }`}
             >
               <LogoutIcon />
               {(!collapsed || isMobile) && <span>Logout</span>}
@@ -187,7 +208,7 @@ export default function PharmacistSidebar({ collapsed, setCollapsed }: SidebarPr
         </ul>
       </div>
 
-      {/* Overlay for mobile */}
+      {/* Mobile Overlay */}
       {isMobile && isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30 backdrop-blur-sm"
